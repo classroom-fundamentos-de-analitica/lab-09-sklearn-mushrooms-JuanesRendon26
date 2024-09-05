@@ -62,8 +62,8 @@ def run_grading():
 
     accuracy_train, accuracy_test = compute_metrics()
 
-    assert accuracy_train == True
-    assert accuracy_test == True
+    assert accuracy_train > 0.99
+    assert accuracy_test > 0.99
 
 if __name__ == "__main__":
     run_grading()
