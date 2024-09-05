@@ -24,7 +24,10 @@ def load_datasets():
     train_dataset = pd.read_csv("train_dataset.csv")
     test_dataset = pd.read_csv("test_dataset.csv")
 
-    x_train = train_dataset.drop("type", axis=1)
+    train_dataset = pd.get_dummies(train_dataset, dtype=int)
+    test_dataset = pd.get_dummies(test_dataset, dtype=int)
+
+    x_train = train_dataset.drop(['type','cap_shape_c'], axis=1)
     y_train = train_dataset["type"]
 
     x_test = test_dataset.drop("type", axis=1)
@@ -46,17 +49,18 @@ def compute_metrics():
 
     estimator = load_estimator()
     assert estimator is not None, "Model not found"
-    
+
     x_train, x_test, y_true_train, y_true_test = load_datasets()
 
     y_pred_train = estimator.predict(x_train)
     y_pred_test = estimator.predict(x_test)
+
     accuracy_train = eval_metrics(y_true_train, y_pred_train)
     accuracy_test = eval_metrics(y_true_test, y_pred_test)
-    
+
     return accuracy_train, accuracy_test
 
- 
+
 def run_grading():
     """Run grading script."""
 
@@ -65,6 +69,6 @@ def run_grading():
     assert accuracy_train > 0.99
     assert accuracy_test > 0.99
 
+
 if __name__ == "__main__":
     run_grading()
-    
