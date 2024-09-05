@@ -23,7 +23,9 @@ def load_datasets():
 
     train_dataset = pd.read_csv("train_dataset.csv")
     test_dataset = pd.read_csv("test_dataset.csv")
-
+    
+    train_dataset['type'] = train_dataset['type'].replace({'e':1,'p':0})
+    test_dataset['type'] = test_dataset['type'].replace({'e':1,'p':0})
     train_dataset = pd.get_dummies(train_dataset, dtype=int)
     test_dataset = pd.get_dummies(test_dataset, dtype=int)
 
